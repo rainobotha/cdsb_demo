@@ -1,0 +1,24 @@
+definition_version: 2
+entities:
+  cdsb_platform:
+    type: streamlit
+    identifier:
+      name: CDSB_PLATFORM
+      database: CDSB_DEMO
+      schema: RAW
+    query_warehouse: COMPUTE_WH
+    runtime_name: SYSTEM$ST_CONTAINER_RUNTIME_PY3_11
+    compute_pool: CPU_X64_XS
+    external_access_integrations:
+      - ALLOW_ALL_ACCESS_INTEGRATION
+    main_file: streamlit_app.py
+    artifacts:
+      - streamlit_app.py
+      - pyproject.toml
+      - engine.py
+      - pipeline.py
+      - app_pages/sources.py
+      - app_pages/extract.py
+      - app_pages/monitor.py
+      - app_pages/search.py
+      - app_pages/pipeline.py

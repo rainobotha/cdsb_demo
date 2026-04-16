@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDSB Demo — End-to-End User Guide</title>
+<style>
+  :root {
+    --qld-maroon: #73182C;
+    --qld-navy: #001D74;
+    --qld-blue: #005EB8;
+    --qld-teal: #00838F;
+    --bg: #FAFBFD;
+    --card: #FFFFFF;
+    --border: #DDE3ED;
+    --text: #1A1F36;
+    --muted: #5A6078;
+    --code-bg: #0D1117;
+    --code-text: #C9D1D9;
+    --accent: #005EB8;
+    --success: #0A690D;
+    --warning: #B05010;
+    --danger: #73182C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  .maroon-bar { height: 4px; background: var(--qld-maroon); }
+
+  header {
+    background: #fff;
+    padding: 28px 0 20px;
+    border-bottom: 3px solid var(--qld-blue);
+  }
+  header .inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--qld-navy);
+    letter-spacing: 0.5px;
+  }
+  header .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  header .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--qld-navy);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+  }
+  header .badge .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #34D399;
+  }
+
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 32px; }
+
+  nav.toc {
+    position: sticky;
+    top: 0;
+    background: var(--qld-navy);
+    z-index: 100;
+    padding: 0;
+  }
+  nav.toc .inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  nav.toc a {
+    display: block;
+    padding: 12px 16px;
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  nav.toc a:hover { color: #fff; border-bottom-color: rgba(255,255,255,0.3); }
+
+  main { padding: 40px 0 80px; }
+
+  section { margin-bottom: 56px; scroll-margin-top: 60px; }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--qld-navy);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--qld-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--qld-blue);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 24px 0 10px;
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+  p.muted { color: var(--muted); font-size: 14px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--qld-navy);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  th {
+    background: var(--qld-navy);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  th:first-child { border-radius: 6px 0 0 0; }
+  th:last-child { border-radius: 0 6px 0 0; }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: #F0F4FA; }
+  tr:last-child td { border-bottom: none; }
+
+  code {
+    font-family: 'SF Mono', SFMono-Regular, 'Consolas', 'Liberation Mono', Menlo, monospace;
+    font-size: 13px;
+    background: #EEF2F7;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--qld-navy);
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 18px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .tag-blue { background: #E3EFFF; color: var(--qld-blue); }
+  .tag-green { background: #E6F9E8; color: var(--success); }
+  .tag-orange { background: #FFF3E6; color: var(--warning); }
+  .tag-red { background: #FFE8EC; color: var(--danger); }
+
+  .callout {
+    border-left: 4px solid;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .callout-info { border-color: var(--qld-blue); background: #EBF5FF; }
+  .callout-warn { border-color: var(--warning); background: #FFF8F0; }
+  .callout-danger { border-color: var(--danger); background: #FFF0F3; }
+  .callout strong { display: block; margin-bottom: 4px; }
+
+  .arch-container {
+    background: #000764;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .arch-container svg { width: 100%; height: auto; display: block; }
+
+  .flow-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    padding: 0 12px;
+  }
+  .flow-step .circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--qld-blue);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 auto 8px;
+  }
+  .flow-step .label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--qld-navy);
+  }
+  .flow-step .desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .flow-step::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    right: -8px;
+    width: 16px;
+    height: 2px;
+    background: var(--qld-blue);
+  }
+  .flow-step:last-child::after { display: none; }
+
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+
+  .nb-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .nb-header {
+    padding: 14px 20px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nb-body { padding: 16px 20px; background: #fff; }
+  .nb-body p { margin-bottom: 8px; font-size: 14px; }
+  .nb-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .nb-meta span {
+    font-size: 12px;
+    color: var(--muted);
+    background: #F0F4FA;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  footer {
+    border-top: 3px solid var(--qld-maroon);
+    padding: 32px 0;
+    background: var(--qld-navy);
+    color: #94A3B8;
+    font-size: 13px;
+    text-align: center;
+  }
+  footer strong { color: #fff; }
+
+  .file-tree {
+    font-family: 'SF Mono', SFMono-Regular, 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    background: #F6F8FC;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    color: var(--text);
+  }
+  .file-tree .dir { color: var(--qld-blue); font-weight: 600; }
+  .file-tree .comment { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="maroon-bar"></div>
+
+<header>
+  <div class="inner">
+    <div>
+      <h1>CDSB Demo — End-to-End User Guide</h1>
+      <div class="subtitle">Department of Customer Services, Open Data and Small &amp; Family Business</div>
+    </div>
+    <div class="badge"><span class="dot"></span> Snowflake Cortex AI</div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#overview">Overview</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#prerequisites">Prerequisites</a>
+    <a href="#platform">Data Platform</a>
+    <a href="#notebooks">Notebooks</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#audio">Audio AI</a>
+    <a href="#cortex">Cortex Services</a>
+    <a href="#build">Build &amp; Deploy</a>
+    <a href="#session">Session Guide</a>
+    <a href="#reference">Reference</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- ========== 1. OVERVIEW ========== -->
+<section id="overview">
+  <h2><span class="num">1</span> Solution Overview</h2>
+
+  <p>This solution demonstrates Snowflake Cortex AI capabilities using real Queensland Government data. It covers document AI, anomaly detection, process mining, graph analytics, audio/video AI, and ML model quality — all running natively inside Snowflake.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">6 Snowflake Notebooks</div>
+      <p class="muted">Anomaly detection, process mining, graph analytics, demo reset, ML quality, audio AI pipeline</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Next.js Dashboard</div>
+      <p class="muted">QLD Government-branded, 4-tab analytics dashboard with live Snowflake data</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Cortex AI Platform</div>
+      <p class="muted">Streamlit control plane, Cortex Search (833K+ chunks), Cortex Agent, 9 gov sources</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Snowflake Account (Demo)</div>
+      <table>
+        <tr><td><strong>Account</strong></td><td><code>SFSEAPAC-AU_DEMO50</code></td></tr>
+        <tr><td><strong>Region</strong></td><td>ap-southeast-2 (Sydney)</td></tr>
+        <tr><td><strong>Database</strong></td><td><code>CDSB_DEMO</code></td></tr>
+        <tr><td><strong>Schemas</strong></td><td><code>RAW</code> (data), <code>NOTEBOOKS</code> (notebooks)</td></tr>
+        <tr><td><strong>Warehouse</strong></td><td><code>COMPUTE_WH</code></td></tr>
+        <tr><td><strong>Connection</strong></td><td><code>AU_DEMO50</code></td></tr>
+      </table>
+      <div class="callout callout-info" style="margin-top:0.5rem;">
+        <strong>Portable design:</strong> All components use environment variables with the above as defaults.
+        To deploy into your own account, set <code>CDSB_DATABASE</code>, <code>CDSB_SCHEMA</code>, <code>CDSB_WAREHOUSE</code>,
+        and <code>SNOWFLAKE_CONNECTION_NAME</code>. The Streamlit app auto-detects its database context at runtime.
+        See <a href="#deploy">Build &amp; Deploy</a> for details.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Technologies</div>
+      <table>
+        <tr><td>Snowflake ML</td><td>Anomaly Detection, Forecasting</td></tr>
+        <tr><td>Cortex AI</td><td>AI_TRANSCRIBE, AI_TRANSLATE, AI_REDACT, AI_SENTIMENT, AI_SIMILARITY</td></tr>
+        <tr><td>Cortex Search</td><td>RAG with arctic-embed-l-v2.0</td></tr>
+        <tr><td>Cortex Agent</td><td>Claude Sonnet 4 orchestration</td></tr>
+        <tr><td>Neo4j</td><td>Graph Analytics (Native App/SPCS)</td></tr>
+        <tr><td>AI_PARSE_DOCUMENT</td><td>PDF/Word/TIFF text extraction</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. ARCHITECTURE ========== -->
+<section id="architecture">
+  <h2><span class="num">2</span> Solution Architecture</h2>
+  <p>The complete solution architecture (designed for 4:3 slide projection):</p>
+  <div class="arch-container">
+    <img src="architecture.png" alt="CDSB Solution Architecture" style="width:100%;height:auto;display:block;border-radius:8px;">
+  </div>
+  <p class="muted">File: <code>architecture.svg</code> / <code>architecture.png</code> — viewBox 1280&times;960 (4:3)</p>
+</section>
+
+<!-- ========== 3. PREREQUISITES ========== -->
+<section id="prerequisites">
+  <h2><span class="num">3</span> Prerequisites</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Snowflake</div>
+      <ul>
+        <li>ACCOUNTADMIN role</li>
+        <li>Standard warehouse (<code>COMPUTE_WH</code>)</li>
+        <li>Compute pool <code>CPU_X64_XS</code> for Streamlit + SPCS</li>
+        <li>External access integration for outbound HTTP</li>
+        <li>Neo4j Graph Analytics installed from Marketplace</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Local Machine</div>
+      <ul>
+        <li>Snowflake CLI v3.14.0+ (<code>snow --version</code>)</li>
+        <li>Python 3.11+ with <code>snowflake-connector-python</code></li>
+        <li>Node.js 18+ (for dashboard)</li>
+        <li><code>librsvg</code> for SVG&#8594;PNG (<code>brew install librsvg</code>)</li>
+        <li><code>gTTS</code> + <code>pydub</code> for audio generation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Connection Setup</strong>
+    All CLI commands use <code>--connection AU_DEMO50</code>. Ensure your Snowflake CLI connection is configured:
+    <code>snow connection test --connection AU_DEMO50</code>
+  </div>
+
+  <h3>Initial Data Setup</h3>
+  <p>The TMR vehicle registration dataset (~42 MB, 304K rows) is sourced from QLD Open Data and is too large for version control.
+     Run the setup script to download and stage it:</p>
+<pre><code>SNOWFLAKE_CONNECTION_NAME=AU_DEMO50 python setup_data.py</code></pre>
+  <p>This queries the CKAN API at <code>data.qld.gov.au</code>, downloads the latest CSV, converts encoding (UTF-16&rarr;UTF-8),
+     compresses it, and uploads to <code>@QLD_OPEN_DATA/tmr/</code>. NB01 (Anomaly Detection) loads from this stage via
+     <code>COPY INTO</code>.</p>
+</section>
+
+<!-- ========== 4. DATA PLATFORM ========== -->
+<section id="platform">
+  <h2><span class="num">4</span> Data Extraction Platform</h2>
+
+  <p>The Streamlit-in-Snowflake control plane crawls 9 Queensland Government websites, downloads documents, parses them with AI, chunks the content, and exposes it via Cortex Search and a Cortex Agent.</p>
+
+  <div class="flow-steps">
+    <div class="flow-step"><div class="circle">1</div><div class="label">Crawl</div><div class="desc">BFS / CKAN / Targeted</div></div>
+    <div class="flow-step"><div class="circle">2</div><div class="label">Download</div><div class="desc">Stream to Stage</div></div>
+    <div class="flow-step"><div class="circle">3</div><div class="label">Parse</div><div class="desc">AI_PARSE_DOCUMENT</div></div>
+    <div class="flow-step"><div class="circle">4</div><div class="label">Unify</div><div class="desc">MERGE (incremental)</div></div>
+    <div class="flow-step"><div class="circle">5</div><div class="label">Chunk</div><div class="desc">1500 chars, 500 overlap</div></div>
+    <div class="flow-step"><div class="circle">6</div><div class="label">Search</div><div class="desc">Cortex Search auto-refresh</div></div>
+  </div>
+
+  <h3>Configured Sources (9)</h3>
+  <table>
+    <thead>
+      <tr><th>Source</th><th>Method</th><th>Cloudflare</th><th>File Types</th><th>Stage</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>CDSB</td><td><span class="tag tag-blue">BFS</span></td><td>No</td><td>PDF</td><td><code>CDSB_DOCUMENTS</code></td></tr>
+      <tr><td>QLD Gov</td><td><span class="tag tag-blue">BFS</span></td><td>No</td><td>PDF</td><td><code>QLD_GOV_DOCUMENTS</code></td></tr>
+      <tr><td>TMR</td><td><span class="tag tag-blue">BFS</span></td><td>Yes</td><td>PDF</td><td><code>TMR_DOCUMENTS</code></td></tr>
+      <tr><td>Education</td><td><span class="tag tag-blue">BFS</span></td><td>Yes</td><td>PDF</td><td><code>EDU_DOCUMENTS</code></td></tr>
+      <tr><td>Health</td><td><span class="tag tag-blue">BFS</span></td><td>Yes</td><td>PDF</td><td><code>HEALTH_DOCUMENTS</code></td></tr>
+      <tr><td>DPI</td><td><span class="tag tag-blue">BFS</span></td><td>Yes</td><td>PDF</td><td><code>DPI_DOCUMENTS</code></td></tr>
+      <tr><td>Police</td><td><span class="tag tag-blue">BFS</span></td><td>No</td><td>PDF</td><td><code>POLICE_DOCUMENTS</code></td></tr>
+      <tr><td>Publications</td><td><span class="tag tag-green">CKAN</span></td><td>No</td><td>PDF</td><td><code>PUBLICATIONS_DOCUMENTS</code></td></tr>
+      <tr><td>QPS Reports</td><td><span class="tag tag-orange">TARGETED</span></td><td>No</td><td>PDF</td><td><code>QPS_REPORTS</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Streamlit Control Plane</h3>
+  <p>Object: <code>CDSB_DEMO.RAW.CDSB_PLATFORM</code></p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Pages</div>
+      <ul>
+        <li><strong>Manage Sources</strong> — Add/edit/delete extraction sources</li>
+        <li><strong>Run Extraction</strong> — Execute crawls, run pipeline</li>
+        <li><strong>Monitor</strong> — Overview metrics, run history, data inventory</li>
+        <li><strong>Search &amp; Chat</strong> — Cortex Search + RAG chat with Agent</li>
+        <li><strong>Pipeline</strong> — Parse, unify, chunk stages individually</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Deploy / Redeploy</div>
+<pre><code>cd cdsb_platform
+snow streamlit deploy --replace --connection AU_DEMO50</code></pre>
+      <p class="muted">Runtime: <code>SYSTEM$ST_CONTAINER_RUNTIME_PY3_11</code><br>
+      Compute pool: <code>CPU_X64_XS</code></p>
+    </div>
+  </div>
+
+  <h3>SPCS Scheduled Scraper</h3>
+  <p>A containerised all-in-one scraper runs as an hourly Snowflake Task:</p>
+<pre><code>-- Resume the hourly task
+ALTER TASK CDSB_DEMO.RAW.CDSB_HOURLY_SCRAPER RESUME;
+
+-- Or execute manually
+EXECUTE TASK CDSB_DEMO.RAW.CDSB_HOURLY_SCRAPER;</code></pre>
+
+  <h3>Current Data Volume</h3>
+  <div class="grid-3">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;font-weight:700;color:var(--qld-blue);">9</div>
+      <div class="muted">Configured Sources</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;font-weight:700;color:var(--qld-blue);">37,834</div>
+      <div class="muted">Unified Documents</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;font-weight:700;color:var(--qld-blue);">833,016</div>
+      <div class="muted">Indexed Chunks</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5. NOTEBOOKS ========== -->
+<section id="notebooks">
+  <h2><span class="num">5</span> Snowflake Notebooks</h2>
+
+  <p>All notebooks are deployed to <code>CDSB_DEMO.NOTEBOOKS</code> and can be run directly in Snowsight. They are generated programmatically from <code>build_sf_notebooks.py</code>.</p>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#0085B3,#006A8F);">
+      NB01 — Anomaly Detection
+      <span class="tag tag-blue" style="background:rgba(255,255,255,0.2);color:#fff;">ANOMALY_DETECTION</span>
+    </div>
+    <div class="nb-body">
+      <p>Loads TMR new business registration data (304K records from QLD Open Data), aggregates to time series by region, trains a <code>SNOWFLAKE.ML.ANOMALY_DETECTION</code> model, detects anomalous spikes/drops, and uses <code>AI_COMPLETE</code> to generate natural-language explanations.</p>
+      <div class="nb-meta">
+        <span>32 cells</span>
+        <span>Plotly charts</span>
+        <span>SNOWFLAKE.ML</span>
+        <span>CORTEX.COMPLETE</span>
+      </div>
+      <h3 style="margin-top:14px;">Key Objects Created</h3>
+      <table>
+        <tr><td><code>TMR_REGISTRATIONS</code></td><td>Raw registration data (304K rows)</td></tr>
+        <tr><td><code>TMR_SUBURB_MONTHLY</code></td><td>Aggregated monthly time series</td></tr>
+        <tr><td><code>TMR_ANOMALY_RESULTS</code></td><td>Anomaly detection output with bounds</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#0085B3,#006A8F);">
+      NB02 — Process Mining
+      <span class="tag tag-blue" style="background:rgba(255,255,255,0.2);color:#fff;">PROCESS_MINING</span>
+    </div>
+    <div class="nb-body">
+      <p>Generates synthetic government service request lifecycle events (52K+ events), discovers process patterns via SQL, performs conformance analysis against a baseline process, and prepares node/relationship tables for Neo4j graph projection.</p>
+      <div class="nb-meta">
+        <span>25 cells</span>
+        <span>Plotly</span>
+        <span>Snowpark</span>
+        <span>AI_COMPLETE</span>
+      </div>
+      <h3 style="margin-top:14px;">Key Objects Created</h3>
+      <table>
+        <tr><td><code>SERVICE_REQUEST_EVENTS</code></td><td>Synthetic event log (52K rows)</td></tr>
+        <tr><td><code>PROCESS_NODES</code></td><td>Node table for Neo4j (10,016 nodes)</td></tr>
+        <tr><td><code>PROCESS_RELATIONSHIPS</code></td><td>Relationship table for Neo4j</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#0085B3,#006A8F);">
+      NB03 — Neo4j Graph Analytics
+      <span class="tag tag-blue" style="background:rgba(255,255,255,0.2);color:#fff;">NEO4J_GRAPH_ANALYTICS</span>
+    </div>
+    <div class="nb-body">
+      <p>Uses the Neo4j Graph Analytics Native App (installed from Marketplace) to run WCC, Louvain community detection, and PageRank on the process mining graph. Includes interactive neo4j-viz graph visualisation and Streamlit widgets.</p>
+      <div class="nb-meta">
+        <span>29 cells</span>
+        <span>neo4j-viz</span>
+        <span>Streamlit widgets</span>
+        <span>WCC / Louvain / PageRank</span>
+      </div>
+      <div class="callout callout-info" style="margin-top:14px;">
+        <strong>Prerequisite</strong>
+        Neo4j Graph Analytics must be installed from the Snowflake Marketplace first. The app name is <code>SE_SNOW_NEO4J_GRAPH_ANALYTICS</code>.
+      </div>
+    </div>
+  </div>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#888,#555);">
+      NB04 — Demo Reset
+      <span class="tag" style="background:rgba(255,255,255,0.2);color:#fff;">DEMO_RESET</span>
+    </div>
+    <div class="nb-body">
+      <p>Cleans up all objects created by NB01-NB06, including tables, views, ML models, and VIZ_* views. Run this before re-running the demo sequence to start from a clean state.</p>
+      <div class="nb-meta">
+        <span>16 cells</span>
+        <span>Full cleanup</span>
+        <span>State verification</span>
+      </div>
+      <div class="callout callout-warn" style="margin-top:14px;">
+        <strong>Warning</strong>
+        This drops all demo objects. The data extraction platform (Cortex Search, Agent, CDSB_PLATFORM) is NOT affected.
+      </div>
+    </div>
+  </div>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#0085B3,#006A8F);">
+      NB05 — ML Model Quality
+      <span class="tag tag-blue" style="background:rgba(255,255,255,0.2);color:#fff;">ML_MODEL_QUALITY</span>
+    </div>
+    <div class="nb-body">
+      <p>Analyses the quality of the anomaly detection model by identifying false positives using <code>AI_SIMILARITY</code>, performing IQR and CV analysis on training data, cleaning outliers, retraining the model, and comparing results.</p>
+      <div class="nb-meta">
+        <span>26 cells</span>
+        <span>Plotly</span>
+        <span>AI_SIMILARITY</span>
+        <span>SNOWFLAKE.ML retrain</span>
+      </div>
+      <h3 style="margin-top:14px;">Key Objects Created</h3>
+      <table>
+        <tr><td><code>TMR_TRAINING_DATA_CLEAN</code></td><td>Cleaned training dataset (view)</td></tr>
+        <tr><td><code>tmr_anomaly_model_clean</code></td><td>Retrained ML model</td></tr>
+        <tr><td><code>TMR_ANOMALY_RESULTS_CLEAN</code></td><td>Clean anomaly detection output</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="nb-card">
+    <div class="nb-header" style="background:linear-gradient(135deg,#E07020,#B05010);">
+      NB06 — Audio AI Pipeline
+      <span class="tag tag-orange" style="background:rgba(255,255,255,0.2);color:#fff;">AUDIO_VIDEO_PIPELINE</span>
+    </div>
+    <div class="nb-body">
+      <p>Demonstrates Snowflake Cortex AI functions on 5 pre-staged multi-speaker WAV files: transcription with speaker diarisation, translation (Mandarin&harr;English), PII redaction, and 6-dimensional sentiment analysis.</p>
+      <div class="nb-meta">
+        <span>27 cells</span>
+        <span>AI_TRANSCRIBE</span>
+        <span>AI_TRANSLATE</span>
+        <span>AI_REDACT</span>
+        <span>AI_SENTIMENT</span>
+      </div>
+      <h3 style="margin-top:14px;">Key Objects Created</h3>
+      <table>
+        <tr><td><code>CALL_SCENARIOS</code></td><td>Scenario metadata with FILENAME column</td></tr>
+        <tr><td><code>CALL_TRANSCRIPTS</code></td><td>Full transcriptions with speaker segments</td></tr>
+        <tr><td><code>CALL_TRANSLATIONS</code></td><td>Translated text</td></tr>
+        <tr><td><code>CALL_REDACTED</code></td><td>PII-redacted transcripts</td></tr>
+        <tr><td><code>CALL_SENTIMENT</code></td><td>6-dimensional sentiment scores</td></tr>
+        <tr><td><code>CALL_ANALYTICS</code></td><td>Aggregated call analytics</td></tr>
+      </table>
+
+      <div class="callout callout-danger" style="margin-top:14px;">
+        <strong>Regional Limitation</strong>
+        <code>AI_TRANSCRIBE</code> is only available in AWS US West 2, US East 1, EU Central 1, and Azure East US 2. It is <strong>NOT available in ap-southeast-2</strong> where this account resides. The notebook is designed for demonstration on a US-region account or when the feature becomes available in Sydney.
+      </div>
+    </div>
+  </div>
+
+  <h3>Notebook Execution Order</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="circle">04</div><div class="label">Demo Reset</div><div class="desc">Clean slate</div></div>
+    <div class="flow-step"><div class="circle">01</div><div class="label">Anomaly</div><div class="desc">Load + detect</div></div>
+    <div class="flow-step"><div class="circle">02</div><div class="label">Process</div><div class="desc">Events + mining</div></div>
+    <div class="flow-step"><div class="circle">03</div><div class="label">Graph</div><div class="desc">Neo4j algorithms</div></div>
+    <div class="flow-step"><div class="circle">05</div><div class="label">ML Quality</div><div class="desc">Clean + retrain</div></div>
+    <div class="flow-step"><div class="circle">06</div><div class="label">Audio AI</div><div class="desc">Transcribe + NLP</div></div>
+  </div>
+</section>
+
+<!-- ========== 6. DASHBOARD ========== -->
+<section id="dashboard">
+  <h2><span class="num">6</span> Next.js Dashboard</h2>
+
+  <p>A QLD Government-branded analytics dashboard built with Next.js 16, Tailwind CSS v4, and Recharts. It connects directly to Snowflake using keypair authentication.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Tech Stack</div>
+      <table>
+        <tr><td>Framework</td><td>Next.js 16.2.3 (Turbopack)</td></tr>
+        <tr><td>Styling</td><td>Tailwind CSS v4</td></tr>
+        <tr><td>Charts</td><td>Recharts 2.15</td></tr>
+        <tr><td>Icons</td><td>Lucide React</td></tr>
+        <tr><td>Auth</td><td>Snowflake JWT (keypair)</td></tr>
+        <tr><td>Service User</td><td><code>CDSB_DASHBOARD_SVC</code></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Dashboard Tabs</div>
+      <ul>
+        <li><strong>Anomaly Detection</strong> — Stat cards, time series charts, anomaly table</li>
+        <li><strong>Process Mining</strong> — Process flow visualisation, conformance, resolution analysis</li>
+        <li><strong>Graph Analytics</strong> — Interactive force-directed graph, handler statistics</li>
+        <li><strong>Regional View</strong> — Custom QLD SVG map, regional bars, trend lines</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Running the Dashboard</h3>
+<pre><code># From the project directory
+cd cdsb-dashboard
+./node_modules/.bin/next dev --port 3456
+
+# Then open http://localhost:3456</code></pre>
+
+  <div class="callout callout-info">
+    <strong>Important</strong>
+    Do not use <code>npx next dev</code> — it prompts for package installation. Use the local binary directly. The <code>--dir</code> flag is not supported; you must <code>cd</code> into the project directory first.
+  </div>
+
+  <h3>Snowflake Connection</h3>
+  <p>The dashboard authenticates via keypair:</p>
+  <table>
+    <tr><td><strong>Service user</strong></td><td><code>CDSB_DASHBOARD_SVC</code></td></tr>
+    <tr><td><strong>Auth method</strong></td><td>SNOWFLAKE_JWT (RSA keypair)</td></tr>
+    <tr><td><strong>Private key</strong></td><td><code>cdsb-dashboard/keys/rsa_key.p8</code></td></tr>
+    <tr><td><strong>Role</strong></td><td>ACCOUNTADMIN</td></tr>
+    <tr><td><strong>API routes</strong></td><td><code>app/api/</code> — server-side Snowflake queries</td></tr>
+  </table>
+</section>
+
+<!-- ========== 7. AUDIO AI ========== -->
+<section id="audio">
+  <h2><span class="num">7</span> Audio AI Pipeline</h2>
+
+  <p>Five synthetic multi-speaker WAV files simulate government call centre scenarios. They are generated locally and uploaded to a Snowflake internal stage with server-side encryption.</p>
+
+  <h3>Audio Files</h3>
+  <table>
+    <thead>
+      <tr><th>File</th><th>Scenario</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>call_001_licence_complaint.wav</code></td><td>Customer complaining about licence processing delays</td></tr>
+      <tr><td><code>call_002_registration_thankyou.wav</code></td><td>Positive call thanking registration support</td></tr>
+      <tr><td><code>call_003_elderly_portal_help.wav</code></td><td>Elderly person needing portal navigation assistance</td></tr>
+      <tr><td><code>call_004_bilingual_mandarin.wav</code></td><td>Bilingual call (Mandarin + English) for translation demo</td></tr>
+      <tr><td><code>call_005_fraud_report.wav</code></td><td>Fraud report with PII for redaction demo</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stage Configuration</h3>
+<pre><code>-- Stage with server-side encryption (required for AI_TRANSCRIBE)
+@CDSB_DEMO.RAW.AUDIO_FILES
+  DIRECTORY = (ENABLE = TRUE)
+  ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')</code></pre>
+
+  <div class="callout callout-warn">
+    <strong>Encryption Requirement</strong>
+    Cortex AI file functions (AI_TRANSCRIBE, AI_PARSE_DOCUMENT) require <code>SNOWFLAKE_SSE</code> encryption. The default client-side encryption is NOT supported.
+  </div>
+
+  <h3>Generate &amp; Upload Audio</h3>
+<pre><code># Generate 5 WAV files locally
+python session_demos/generate_audio.py
+
+# Upload to Snowflake with SSE encryption
+snow stage copy session_demos/audio_files/*.wav \
+  @CDSB_DEMO.RAW.AUDIO_FILES/ \
+  --connection AU_DEMO50 --overwrite</code></pre>
+
+  <h3>Cortex AI Functions Used</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">AI_TRANSCRIBE</div>
+<pre><code>SELECT AI_TRANSCRIBE(
+  TO_FILE('@CDSB_DEMO.RAW.AUDIO_FILES', 'file.wav'),
+  {'timestamp_granularity': 'speaker'}
+);</code></pre>
+      <p class="muted">Transcribes audio with speaker diarisation</p>
+    </div>
+    <div class="card">
+      <div class="card-title">AI_TRANSLATE</div>
+<pre><code>SELECT AI_TRANSLATE(text, 'zh', 'en');</code></pre>
+      <p class="muted">24+ languages. Use <code>''</code> for auto-detect source.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">AI_REDACT</div>
+<pre><code>-- Redact PII
+SELECT AI_REDACT(text);
+
+-- Detect PII without redacting
+SELECT AI_REDACT(text, NULL, NULL, 'detect');</code></pre>
+    </div>
+    <div class="card">
+      <div class="card-title">AI_SENTIMENT</div>
+<pre><code>SELECT AI_SENTIMENT(text,
+  ['frustrated','satisfied','confused',
+   'urgent','grateful','neutral']
+);</code></pre>
+      <p class="muted">Returns OBJECT with category scores</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 8. CORTEX SERVICES ========== -->
+<section id="cortex">
+  <h2><span class="num">8</span> Cortex Search &amp; Agent</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Cortex Search Service</div>
+      <table>
+        <tr><td><strong>Name</strong></td><td><code>CDSB_DEMO.RAW.CDSB_SEARCH_SERVICE</code></td></tr>
+        <tr><td><strong>Status</strong></td><td><span class="tag tag-green">ACTIVE</span></td></tr>
+        <tr><td><strong>Embedding</strong></td><td>snowflake-arctic-embed-l-v2.0</td></tr>
+        <tr><td><strong>Refresh</strong></td><td><span class="tag tag-green">INCREMENTAL</span></td></tr>
+        <tr><td><strong>Source</strong></td><td><code>CDSB_CHUNKS</code> (833K+ rows)</td></tr>
+        <tr><td><strong>Lag</strong></td><td>1 day</td></tr>
+      </table>
+      <div class="callout callout-danger" style="margin-top:14px;">
+        <strong>Do NOT drop or recreate this service.</strong> It auto-refreshes incrementally.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Cortex Agent</div>
+      <table>
+        <tr><td><strong>Name</strong></td><td><code>CDSB_DEMO.RAW.CDSB_ASSISTANT</code></td></tr>
+        <tr><td><strong>Model</strong></td><td>Claude Sonnet 4</td></tr>
+        <tr><td><strong>Tools</strong></td><td>Cortex Search + Web Search</td></tr>
+        <tr><td><strong>Budget</strong></td><td>900s, 400K tokens</td></tr>
+      </table>
+      <p class="muted" style="margin-top:10px;">Covers 6 QLD departments: CDSB, QLD Gov, TMR, Education, Health, DPI</p>
+    </div>
+  </div>
+
+  <h3>Querying the Search Service</h3>
+<pre><code>SELECT SNOWFLAKE.CORTEX.SEARCH(
+    'CDSB_DEMO.RAW.CDSB_SEARCH_SERVICE',
+    'road safety regulations',
+    {
+        'columns': ['chunk_content', 'title', 'source_url', 'domain'],
+        'limit': 10
+    }
+) as results;</code></pre>
+</section>
+
+<!-- ========== 9. BUILD & DEPLOY ========== -->
+<section id="build">
+  <h2><span class="num">9</span> Build &amp; Deploy</h2>
+
+  <h3>Project File Structure</h3>
+  <div class="file-tree">
+<span class="dir">cdsb_demo/</span>
+├── <span class="dir">cdsb_platform/</span>          <span class="comment">  # Streamlit control plane</span>
+│   ├── snowflake.yml           <span class="comment">  # SiS deployment manifest</span>
+│   ├── streamlit_app.py        <span class="comment">  # 5-page navigation app</span>
+│   ├── engine.py               <span class="comment">  # BFS/CKAN/Targeted scraper</span>
+│   ├── pipeline.py             <span class="comment">  # Incremental parse/merge/chunk</span>
+│   └── <span class="dir">app_pages/</span>            <span class="comment">  # sources, extract, monitor, search, pipeline</span>
+│
+├── <span class="dir">cdsb_spcs/</span>               <span class="comment">  # Containerised hourly scraper</span>
+│   ├── scraper.py
+│   └── Dockerfile
+│
+├── <span class="dir">cdsb-dashboard/</span>          <span class="comment">  # Next.js dashboard</span>
+│   ├── <span class="dir">app/</span>                 <span class="comment">  # Next.js app router (page.tsx, layout.tsx, api/)</span>
+│   ├── <span class="dir">components/</span>          <span class="comment">  # anomaly-panel, process-flow, graph, region</span>
+│   ├── <span class="dir">lib/</span>                 <span class="comment">  # snowflake.ts (JWT connection)</span>
+│   ├── <span class="dir">keys/</span>                <span class="comment">  # rsa_key.p8 (service user keypair)</span>
+│   └── <span class="dir">public/</span>              <span class="comment">  # qld-gov-logo.png</span>
+│
+├── <span class="dir">session_demos/</span>           <span class="comment">  # Notebook source + build tooling</span>
+│   ├── build_sf_notebooks.py   <span class="comment">  # Generates all 6 .ipynb files (Python DSL)</span>
+│   ├── generate_audio.py       <span class="comment">  # Creates 5 multi-speaker WAV files</span>
+│   ├── convert_notebooks.py    <span class="comment">  # Converts local notebooks to Snowflake format</span>
+│   ├── SESSION_RUNSHEET.md     <span class="comment">  # 90-minute demo run sheet</span>
+│   ├── <span class="dir">audio_files/</span>         <span class="comment">  # 5 WAV files for NB06</span>
+│   ├── sf_01_*.ipynb           <span class="comment">  # Generated Snowflake-format notebooks</span>
+│   ├── sf_02_*.ipynb
+│   ├── sf_03_*.ipynb
+│   ├── sf_04_*.ipynb
+│   ├── sf_05_*.ipynb
+│   └── sf_06_*.ipynb
+│
+├── <span class="dir">CDSB_Data/</span>              <span class="comment">  # Reference documents (DOCX, PDF, PPTX)</span>
+├── architecture.svg            <span class="comment">  # Solution architecture (1280x960, 4:3)</span>
+├── architecture.png            <span class="comment">  # Exported at 2x scale</span>
+├── setup_data.py               <span class="comment">  # Downloads TMR data from CKAN &rarr; Snowflake stage</span>
+└── README.md                   <span class="comment">  # Platform documentation</span>
+  </div>
+
+  <h3>Build Notebooks</h3>
+  <p>The <code>build_sf_notebooks.py</code> script uses a Python DSL with helpers: <code>md()</code>, <code>py()</code>, <code>sql()</code>, and <code>save()</code>.</p>
+<pre><code># Generate all 6 Snowflake-format .ipynb files (uses CDSB_DEMO defaults)
+cd session_demos
+python build_sf_notebooks.py
+
+# To target a different database/warehouse:
+CDSB_DATABASE=MY_DB CDSB_WAREHOUSE=MY_WH python build_sf_notebooks.py</code></pre>
+
+  <h3>Deploy Notebooks to Snowflake</h3>
+<pre><code># Step 1: Upload notebook to stage
+snow stage copy sf_01_anomaly_detection.ipynb \
+  @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/ \
+  --connection AU_DEMO50 --overwrite
+
+# Step 2: Create/replace the notebook object
+snow notebook create CDSB_DEMO.NOTEBOOKS.ANOMALY_DETECTION \
+  -f @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb \
+  --connection AU_DEMO50</code></pre>
+
+  <h3>Notebook Deployment Map</h3>
+  <table>
+    <thead>
+      <tr><th>Notebook</th><th>Source File</th><th>Stage</th><th>Snowflake Object</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>NB01</td><td><code>sf_01_anomaly_detection.ipynb</code></td><td><code>NOTEBOOK_STAGE_01</code></td><td><code>ANOMALY_DETECTION</code></td></tr>
+      <tr><td>NB02</td><td><code>sf_02_process_mining.ipynb</code></td><td><code>NOTEBOOK_STAGE_02</code></td><td><code>PROCESS_MINING</code></td></tr>
+      <tr><td>NB03</td><td><code>sf_03_neo4j_graph_analytics.ipynb</code></td><td><code>NOTEBOOK_STAGE_03</code></td><td><code>NEO4J_GRAPH_ANALYTICS</code></td></tr>
+      <tr><td>NB04</td><td><code>sf_04_demo_reset.ipynb</code></td><td><code>NOTEBOOK_STAGE_04</code></td><td><code>DEMO_RESET</code></td></tr>
+      <tr><td>NB05</td><td><code>sf_05_ml_model_quality.ipynb</code></td><td><code>NOTEBOOK_STAGE_05</code></td><td><code>ML_MODEL_QUALITY</code></td></tr>
+      <tr><td>NB06</td><td><code>sf_06_audio_video_pipeline.ipynb</code></td><td><code>NOTEBOOK_STAGE_06</code></td><td><code>AUDIO_VIDEO_PIPELINE</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Architecture Diagram Export</h3>
+<pre><code># Export SVG to PNG at 2x resolution
+rsvg-convert -z 2 architecture.svg > architecture.png</code></pre>
+
+  <h3 id="deploy">Deploying to Your Own Account</h3>
+  <p>The entire solution is designed to be portable. All components use <strong>environment variables</strong> with sensible defaults
+     so you can deploy into any Snowflake account without modifying source code.</p>
+
+  <div class="callout callout-info">
+    <strong>Key principle:</strong> Set the environment variables below, then follow the standard build/deploy steps.
+    The Streamlit app auto-detects its database and schema from the Snowflake session at runtime.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Variable</th><th>Default</th><th>Used By</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><code>AU_DEMO50</code></td><td>CLI scripts, notebooks (local)</td></tr>
+      <tr><td><code>CDSB_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>build_sf_notebooks.py, run_extraction.py, scraper.py</td></tr>
+      <tr><td><code>CDSB_SCHEMA</code></td><td><code>RAW</code></td><td>build_sf_notebooks.py, run_extraction.py, scraper.py</td></tr>
+      <tr><td><code>CDSB_WAREHOUSE</code></td><td><code>COMPUTE_WH</code></td><td>build_sf_notebooks.py, run_extraction.py</td></tr>
+      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><code>SFSEAPAC-AU_DEMO50</code></td><td>Next.js dashboard</td></tr>
+      <tr><td><code>SNOWFLAKE_USER</code></td><td><code>CDSB_DASHBOARD_SVC</code></td><td>Next.js dashboard (keypair auth)</td></tr>
+      <tr><td><code>SNOWFLAKE_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Next.js dashboard</td></tr>
+      <tr><td><code>SNOWFLAKE_PRIVATE_KEY_PATH</code></td><td><code>./keys/rsa_key.p8</code></td><td>Next.js dashboard</td></tr>
+      <tr><td><code>CDSB_SEARCH_SERVICE</code></td><td><code>&lt;DB&gt;.&lt;SCHEMA&gt;.QLD_GOVERNMENT</code></td><td>Streamlit Search &amp; Chat page</td></tr>
+      <tr><td><code>CDSB_AGENT_NAME</code></td><td><code>&lt;DB&gt;.&lt;SCHEMA&gt;.CDSB_ASSISTANT</code></td><td>Streamlit Search &amp; Chat page</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Step-by-Step for a New Account</h4>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Create database &amp; schema</strong>
+<pre><code>CREATE DATABASE IF NOT EXISTS MY_DATABASE;
+CREATE SCHEMA IF NOT EXISTS MY_DATABASE.RAW;
+CREATE SCHEMA IF NOT EXISTS MY_DATABASE.NOTEBOOKS;</code></pre>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Edit <code>snowflake.yml</code></strong> &mdash; update the <code>database</code> and <code>schema</code> fields under the streamlit entity identifier.
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Regenerate notebooks</strong>
+<pre><code>cd session_demos
+CDSB_DATABASE=MY_DATABASE CDSB_SCHEMA=RAW \
+  CDSB_WAREHOUSE=MY_WH python build_sf_notebooks.py</code></pre>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Deploy Streamlit &amp; notebooks</strong> using your own connection name:
+<pre><code>cd cdsb_platform
+snow streamlit deploy --replace --connection MY_CONN
+
+cd ../session_demos
+snow stage copy sf_01_anomaly_detection.ipynb \
+  @MY_DATABASE.NOTEBOOKS.NOTEBOOK_STAGE_01/ \
+  --connection MY_CONN --overwrite
+snow notebook create MY_DATABASE.NOTEBOOKS.ANOMALY_DETECTION \
+  -f @MY_DATABASE.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb \
+  --connection MY_CONN</code></pre>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Configure dashboard</strong> &mdash; copy <code>.env.example</code> to <code>.env.local</code>:
+<pre><code>cd cdsb-dashboard
+cp .env.example .env.local
+# Edit .env.local with your account, user, database
+npm install && npm run dev -- --port 3456</code></pre>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Create the service user</strong> for the dashboard (keypair auth):
+<pre><code>CREATE USER MY_DASHBOARD_SVC
+  RSA_PUBLIC_KEY='MIIBIjANBg...'
+  DEFAULT_ROLE = ACCOUNTADMIN
+  DEFAULT_WAREHOUSE = MY_WH;
+GRANT ROLE ACCOUNTADMIN TO USER MY_DASHBOARD_SVC;</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>Cortex Search &amp; Agent:</strong> After deploying and running the extraction pipeline, you will need to create
+    your own Cortex Search Service and Cortex Agent pointing to your database. See the <a href="#cortex">Cortex Services</a> section.
+  </div>
+</section>
+
+<!-- ========== 10. SESSION GUIDE ========== -->
+<section id="session">
+  <h2><span class="num">10</span> 90-Minute Session Guide</h2>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>Segment</th><th>Time</th><th>Duration</th><th>Components</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Welcome &amp; Cortex AI Overview</strong></td><td>0:00</td><td>5 min</td><td>Slides / whiteboard</td></tr>
+      <tr><td>2</td><td><strong>Document AI &amp; Search</strong></td><td>0:05</td><td>20 min</td><td>Streamlit Platform, Cortex Search, Agent</td></tr>
+      <tr><td>3</td><td><strong>Anomaly Detection</strong></td><td>0:25</td><td>15 min</td><td>NB01 + NB05 + Dashboard</td></tr>
+      <tr><td>4</td><td><strong>Process Mining</strong></td><td>0:40</td><td>15 min</td><td>NB02 + Dashboard</td></tr>
+      <tr><td>5</td><td><strong>Graph Analytics</strong></td><td>0:55</td><td>10 min</td><td>NB03 + neo4j-viz + Dashboard</td></tr>
+      <tr><td>6</td><td><strong>Audio AI Pipeline</strong></td><td>1:05</td><td>15 min</td><td>NB06 — Transcribe/Translate/Redact</td></tr>
+      <tr><td>7</td><td><strong>Wrap-up &amp; Next Steps</strong></td><td>1:20</td><td>10 min</td><td>Discussion</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pre-Session Checklist</h3>
+  <div class="card">
+    <ul>
+      <li>Run <code>python setup_data.py</code> to download and stage TMR data</li>
+      <li>Verify Streamlit app <code>CDSB_PLATFORM</code> is running</li>
+      <li>Verify Cortex Agent <code>CDSB_ASSISTANT</code> responds</li>
+      <li>Run NB04 (Demo Reset) for clean state</li>
+      <li>Run NB01 (Anomaly Detection) end-to-end</li>
+      <li>Run NB02 (Process Mining) end-to-end</li>
+      <li>Confirm Neo4j Graph Analytics is installed from Marketplace</li>
+      <li>Run NB03 (Neo4j Graph Analytics) end-to-end</li>
+      <li>Start dashboard: <code>cd cdsb-dashboard && ./node_modules/.bin/next dev --port 3456</code></li>
+      <li>Verify dashboard loads at <code>http://localhost:3456</code></li>
+      <li>Have backup screenshots in case of network issues</li>
+    </ul>
+  </div>
+
+  <h3>What to Show Per Segment</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Segment 2: Document AI</div>
+      <ol>
+        <li>Open Streamlit app &rarr; Sources page (9 sources)</li>
+        <li>Show Monitor &rarr; 833K chunks, 37K unified docs</li>
+        <li>Search tab: query "CDSB strategic plan"</li>
+        <li>Snowsight &rarr; Snowflake Intelligence &rarr; CDSB_ASSISTANT</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Segment 3: Anomaly Detection</div>
+      <ol>
+        <li>Run NB01 in Snowsight (or show pre-run output)</li>
+        <li>Show anomaly detection results with bounds</li>
+        <li>Show LLM explanation of anomalies</li>
+        <li>Switch to Dashboard &rarr; Anomaly Detection tab</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Segment 5: Graph Analytics</div>
+      <ol>
+        <li>Show Neo4j Native App in Marketplace</li>
+        <li>Run NB03: WCC, Louvain, PageRank</li>
+        <li>Show interactive neo4j-viz graph</li>
+        <li>Switch to Dashboard &rarr; Graph Analytics tab</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-title">Segment 6: Audio AI</div>
+      <ol>
+        <li>Show 5 WAV files on stage</li>
+        <li>Run AI_TRANSCRIBE with speaker diarisation</li>
+        <li>Show AI_TRANSLATE (Mandarin &rarr; English)</li>
+        <li>Show AI_REDACT (PII detection + redaction)</li>
+        <li>Show AI_SENTIMENT (6-dimensional analysis)</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 11. REFERENCE ========== -->
+<section id="reference">
+  <h2><span class="num">11</span> Quick Reference</h2>
+
+  <h3>Key Snowflake Objects</h3>
+  <table>
+    <thead>
+      <tr><th>Object</th><th>Schema</th><th>Type</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>CDSB_PLATFORM</code></td><td>RAW</td><td>Streamlit App</td><td>Extraction control plane</td></tr>
+      <tr><td><code>CDSB_SEARCH_SERVICE</code></td><td>RAW</td><td>Cortex Search</td><td>833K+ chunks indexed</td></tr>
+      <tr><td><code>CDSB_ASSISTANT</code></td><td>RAW</td><td>Cortex Agent</td><td>Claude Sonnet 4 assistant</td></tr>
+      <tr><td><code>CDSB_HOURLY_SCRAPER</code></td><td>RAW</td><td>Task</td><td>Scheduled SPCS scraper</td></tr>
+      <tr><td><code>ANOMALY_DETECTION</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB01</td></tr>
+      <tr><td><code>PROCESS_MINING</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB02</td></tr>
+      <tr><td><code>NEO4J_GRAPH_ANALYTICS</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB03</td></tr>
+      <tr><td><code>DEMO_RESET</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB04</td></tr>
+      <tr><td><code>ML_MODEL_QUALITY</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB05</td></tr>
+      <tr><td><code>AUDIO_VIDEO_PIPELINE</code></td><td>NOTEBOOKS</td><td>Notebook</td><td>NB06</td></tr>
+      <tr><td><code>AUDIO_FILES</code></td><td>RAW</td><td>Stage</td><td>5 WAV files (SSE encrypted)</td></tr>
+      <tr><td><code>CDSB_DASHBOARD_SVC</code></td><td>—</td><td>User</td><td>Dashboard service account</td></tr>
+      <tr><td><code>CPU_X64_XS</code></td><td>—</td><td>Compute Pool</td><td>SPCS + Streamlit runtime</td></tr>
+      <tr><td><code>COMPUTE_WH</code></td><td>—</td><td>Warehouse</td><td>Standard compute</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Common Commands</h3>
+<pre><code># Test connection
+snow connection test --connection AU_DEMO50
+
+# Download and stage TMR data (run once)
+SNOWFLAKE_CONNECTION_NAME=AU_DEMO50 python setup_data.py
+
+# Deploy Streamlit platform
+cd cdsb_platform && snow streamlit deploy --replace --connection AU_DEMO50
+
+# Build notebooks
+cd session_demos && python build_sf_notebooks.py
+
+# Generate audio files
+python generate_audio.py
+
+# Upload audio to stage
+snow stage copy audio_files/*.wav @CDSB_DEMO.RAW.AUDIO_FILES/ --connection AU_DEMO50 --overwrite
+
+# Deploy a notebook
+snow stage copy sf_01_anomaly_detection.ipynb @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/ --connection AU_DEMO50 --overwrite
+snow notebook create CDSB_DEMO.NOTEBOOKS.ANOMALY_DETECTION -f @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb --connection AU_DEMO50
+
+# Start dashboard
+cd cdsb-dashboard && ./node_modules/.bin/next dev --port 3456
+
+# Export architecture diagram
+rsvg-convert -z 2 architecture.svg > architecture.png</code></pre>
+
+  <h3>Environment Variables</h3>
+  <p>All components read these environment variables with sensible defaults. Set them to deploy into your own account.</p>
+  <table>
+    <thead>
+      <tr><th>Variable</th><th>Default</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><code>AU_DEMO50</code></td><td>Snowflake CLI connection name (scripts, notebooks)</td></tr>
+      <tr><td><code>CDSB_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Target database (notebooks, scraper, extraction)</td></tr>
+      <tr><td><code>CDSB_SCHEMA</code></td><td><code>RAW</code></td><td>Target schema (notebooks, scraper, extraction)</td></tr>
+      <tr><td><code>CDSB_WAREHOUSE</code></td><td><code>COMPUTE_WH</code></td><td>Compute warehouse (notebooks, extraction)</td></tr>
+      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><code>SFSEAPAC-AU_DEMO50</code></td><td>Account identifier (dashboard)</td></tr>
+      <tr><td><code>SNOWFLAKE_USER</code></td><td><code>CDSB_DASHBOARD_SVC</code></td><td>Service user for dashboard keypair auth</td></tr>
+      <tr><td><code>SNOWFLAKE_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Database for dashboard queries</td></tr>
+      <tr><td><code>SNOWFLAKE_PRIVATE_KEY_PATH</code></td><td><code>keys/rsa_key.p8</code></td><td>Dashboard keypair path</td></tr>
+      <tr><td><code>CDSB_SEARCH_SERVICE</code></td><td><em>auto: DB.SCHEMA.QLD_GOVERNMENT</em></td><td>Override Cortex Search service name</td></tr>
+      <tr><td><code>CDSB_AGENT_NAME</code></td><td><em>auto: DB.SCHEMA.CDSB_ASSISTANT</em></td><td>Override Cortex Agent name</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>CDSB Demo Solution</strong> &mdash; Department of Customer Services, Open Data and Small &amp; Family Business<br>
+    Powered by Snowflake Cortex AI &bull; Neo4j Graph Analytics &bull; April 2026
+  </div>
+</footer>
+
+</body>
+</html>
