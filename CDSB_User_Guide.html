@@ -409,14 +409,12 @@
 
   <div class="grid-2">
     <div class="card">
-      <div class="card-title">Snowflake Account (Demo)</div>
+      <div class="card-title">Snowflake Account (Defaults)</div>
       <table>
-        <tr><td><strong>Account</strong></td><td><code>SFSEAPAC-AU_DEMO50</code></td></tr>
-        <tr><td><strong>Region</strong></td><td>ap-southeast-2 (Sydney)</td></tr>
-        <tr><td><strong>Database</strong></td><td><code>CDSB_DEMO</code></td></tr>
+        <tr><td><strong>Database</strong></td><td><code>CDSB_DEMO</code> (override with <code>CDSB_DATABASE</code>)</td></tr>
         <tr><td><strong>Schemas</strong></td><td><code>RAW</code> (data), <code>NOTEBOOKS</code> (notebooks)</td></tr>
-        <tr><td><strong>Warehouse</strong></td><td><code>COMPUTE_WH</code></td></tr>
-        <tr><td><strong>Connection</strong></td><td><code>AU_DEMO50</code></td></tr>
+        <tr><td><strong>Warehouse</strong></td><td><code>COMPUTE_WH</code> (override with <code>CDSB_WAREHOUSE</code>)</td></tr>
+        <tr><td><strong>Connection</strong></td><td>Your configured Snowflake CLI connection</td></tr>
       </table>
       <div class="callout callout-info" style="margin-top:0.5rem;">
         <strong>Portable design:</strong> All components use environment variables with the above as defaults.
@@ -478,14 +476,14 @@
 
   <div class="callout callout-info">
     <strong>Connection Setup</strong>
-    All CLI commands use <code>--connection AU_DEMO50</code>. Ensure your Snowflake CLI connection is configured:
-    <code>snow connection test --connection AU_DEMO50</code>
+    All CLI commands use <code>--connection &lt;YOUR_CONNECTION&gt;</code>. Ensure your Snowflake CLI connection is configured:
+    <code>snow connection test --connection &lt;YOUR_CONNECTION&gt;</code>
   </div>
 
   <h3>Initial Data Setup</h3>
   <p>The TMR vehicle registration dataset (~42 MB, 304K rows) is sourced from QLD Open Data and is too large for version control.
      Run the setup script to download and stage it:</p>
-<pre><code>SNOWFLAKE_CONNECTION_NAME=AU_DEMO50 python setup_data.py</code></pre>
+<pre><code>SNOWFLAKE_CONNECTION_NAME=&lt;YOUR_CONNECTION&gt; python setup_data.py</code></pre>
   <p>This queries the CKAN API at <code>data.qld.gov.au</code>, downloads the latest CSV, converts encoding (UTF-16&rarr;UTF-8),
      compresses it, and uploads to <code>@QLD_OPEN_DATA/tmr/</code>. NB01 (Anomaly Detection) loads from this stage via
      <code>COPY INTO</code>.</p>
@@ -540,7 +538,7 @@
     <div class="card">
       <div class="card-title">Deploy / Redeploy</div>
 <pre><code>cd cdsb_platform
-snow streamlit deploy --replace --connection AU_DEMO50</code></pre>
+snow streamlit deploy --replace --connection &lt;YOUR_CONNECTION&gt;</code></pre>
       <p class="muted">Runtime: <code>SYSTEM$ST_CONTAINER_RUNTIME_PY3_11</code><br>
       Compute pool: <code>CPU_X64_XS</code></p>
     </div>
@@ -814,7 +812,7 @@ python session_demos/generate_audio.py
 # Upload to Snowflake with SSE encryption
 snow stage copy session_demos/audio_files/*.wav \
   @CDSB_DEMO.RAW.AUDIO_FILES/ \
-  --connection AU_DEMO50 --overwrite</code></pre>
+  --connection &lt;YOUR_CONNECTION&gt; --overwrite</code></pre>
 
   <h3>Cortex AI Functions Used</h3>
   <div class="grid-2">
@@ -950,12 +948,12 @@ CDSB_DATABASE=MY_DB CDSB_WAREHOUSE=MY_WH python build_sf_notebooks.py</code></pr
 <pre><code># Step 1: Upload notebook to stage
 snow stage copy sf_01_anomaly_detection.ipynb \
   @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/ \
-  --connection AU_DEMO50 --overwrite
+  --connection &lt;YOUR_CONNECTION&gt; --overwrite
 
 # Step 2: Create/replace the notebook object
 snow notebook create CDSB_DEMO.NOTEBOOKS.ANOMALY_DETECTION \
   -f @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb \
-  --connection AU_DEMO50</code></pre>
+  --connection &lt;YOUR_CONNECTION&gt;</code></pre>
 
   <h3>Notebook Deployment Map</h3>
   <table>
@@ -990,11 +988,11 @@ rsvg-convert -z 2 architecture.svg > architecture.png</code></pre>
       <tr><th>Variable</th><th>Default</th><th>Used By</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><code>AU_DEMO50</code></td><td>CLI scripts, notebooks (local)</td></tr>
+      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><em>your connection name</em></td><td>CLI scripts, notebooks (local)</td></tr>
       <tr><td><code>CDSB_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>build_sf_notebooks.py, run_extraction.py, scraper.py</td></tr>
       <tr><td><code>CDSB_SCHEMA</code></td><td><code>RAW</code></td><td>build_sf_notebooks.py, run_extraction.py, scraper.py</td></tr>
       <tr><td><code>CDSB_WAREHOUSE</code></td><td><code>COMPUTE_WH</code></td><td>build_sf_notebooks.py, run_extraction.py</td></tr>
-      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><code>SFSEAPAC-AU_DEMO50</code></td><td>Next.js dashboard</td></tr>
+      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><em>your account identifier</em></td><td>Next.js dashboard</td></tr>
       <tr><td><code>SNOWFLAKE_USER</code></td><td><code>CDSB_DASHBOARD_SVC</code></td><td>Next.js dashboard (keypair auth)</td></tr>
       <tr><td><code>SNOWFLAKE_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Next.js dashboard</td></tr>
       <tr><td><code>SNOWFLAKE_PRIVATE_KEY_PATH</code></td><td><code>./keys/rsa_key.p8</code></td><td>Next.js dashboard</td></tr>
@@ -1181,13 +1179,13 @@ GRANT ROLE ACCOUNTADMIN TO USER MY_DASHBOARD_SVC;</code></pre>
 
   <h3>Common Commands</h3>
 <pre><code># Test connection
-snow connection test --connection AU_DEMO50
+snow connection test --connection &lt;YOUR_CONNECTION&gt;
 
 # Download and stage TMR data (run once)
-SNOWFLAKE_CONNECTION_NAME=AU_DEMO50 python setup_data.py
+SNOWFLAKE_CONNECTION_NAME=&lt;YOUR_CONNECTION&gt; python setup_data.py
 
 # Deploy Streamlit platform
-cd cdsb_platform && snow streamlit deploy --replace --connection AU_DEMO50
+cd cdsb_platform && snow streamlit deploy --replace --connection &lt;YOUR_CONNECTION&gt;
 
 # Build notebooks
 cd session_demos && python build_sf_notebooks.py
@@ -1196,11 +1194,11 @@ cd session_demos && python build_sf_notebooks.py
 python generate_audio.py
 
 # Upload audio to stage
-snow stage copy audio_files/*.wav @CDSB_DEMO.RAW.AUDIO_FILES/ --connection AU_DEMO50 --overwrite
+snow stage copy audio_files/*.wav @CDSB_DEMO.RAW.AUDIO_FILES/ --connection &lt;YOUR_CONNECTION&gt; --overwrite
 
 # Deploy a notebook
-snow stage copy sf_01_anomaly_detection.ipynb @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/ --connection AU_DEMO50 --overwrite
-snow notebook create CDSB_DEMO.NOTEBOOKS.ANOMALY_DETECTION -f @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb --connection AU_DEMO50
+snow stage copy sf_01_anomaly_detection.ipynb @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/ --connection &lt;YOUR_CONNECTION&gt; --overwrite
+snow notebook create CDSB_DEMO.NOTEBOOKS.ANOMALY_DETECTION -f @CDSB_DEMO.NOTEBOOKS.NOTEBOOK_STAGE_01/sf_01_anomaly_detection.ipynb --connection &lt;YOUR_CONNECTION&gt;
 
 # Start dashboard
 cd cdsb-dashboard && ./node_modules/.bin/next dev --port 3456
@@ -1215,11 +1213,11 @@ rsvg-convert -z 2 architecture.svg > architecture.png</code></pre>
       <tr><th>Variable</th><th>Default</th><th>Description</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><code>AU_DEMO50</code></td><td>Snowflake CLI connection name (scripts, notebooks)</td></tr>
+      <tr><td><code>SNOWFLAKE_CONNECTION_NAME</code></td><td><em>your connection name</em></td><td>Snowflake CLI connection name (scripts, notebooks)</td></tr>
       <tr><td><code>CDSB_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Target database (notebooks, scraper, extraction)</td></tr>
       <tr><td><code>CDSB_SCHEMA</code></td><td><code>RAW</code></td><td>Target schema (notebooks, scraper, extraction)</td></tr>
       <tr><td><code>CDSB_WAREHOUSE</code></td><td><code>COMPUTE_WH</code></td><td>Compute warehouse (notebooks, extraction)</td></tr>
-      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><code>SFSEAPAC-AU_DEMO50</code></td><td>Account identifier (dashboard)</td></tr>
+      <tr><td><code>SNOWFLAKE_ACCOUNT</code></td><td><em>your account identifier</em></td><td>Account identifier (dashboard)</td></tr>
       <tr><td><code>SNOWFLAKE_USER</code></td><td><code>CDSB_DASHBOARD_SVC</code></td><td>Service user for dashboard keypair auth</td></tr>
       <tr><td><code>SNOWFLAKE_DATABASE</code></td><td><code>CDSB_DEMO</code></td><td>Database for dashboard queries</td></tr>
       <tr><td><code>SNOWFLAKE_PRIVATE_KEY_PATH</code></td><td><code>keys/rsa_key.p8</code></td><td>Dashboard keypair path</td></tr>
